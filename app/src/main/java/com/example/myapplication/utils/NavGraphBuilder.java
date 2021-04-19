@@ -1,10 +1,7 @@
 package com.example.myapplication.utils;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.ComponentName;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.ActivityNavigator;
 import androidx.navigation.NavController;
@@ -13,7 +10,8 @@ import androidx.navigation.NavGraphNavigator;
 import androidx.navigation.NavigatorProvider;
 import androidx.navigation.fragment.FragmentNavigator;
 
-import com.example.myapplication.FixFragmentNavigator;
+import com.example.libcommon.AppGlobals;
+import com.example.myapplication.navigator.FixFragmentNavigator;
 import com.example.myapplication.model.Destination;
 
 import java.util.HashMap;

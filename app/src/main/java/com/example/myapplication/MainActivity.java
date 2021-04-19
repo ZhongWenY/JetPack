@@ -1,11 +1,16 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.libnetwork.ApiResponse;
+import com.example.libnetwork.ApiService;
 import com.example.libnetwork.GetRequest;
 import com.example.libnetwork.JsonCallback;
 import com.example.myapplication.utils.NavGraphBuilder;
@@ -26,6 +31,7 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private  static  NavController navController = null;
+    private  static final String TAG="MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +51,45 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         navView.setOnNavigationItemSelectedListener(this);
 
-        GetRequest<JSONObject> request = new GetRequest<JSONObject>("http://www.mooc.com");
-        request.excute();
+        ApiService.get("/user/query")
+                .addParam("userId",0)
+                .excute(new JsonCallback<Object>() {
+                    @Override
+                    public void onSuccess(ApiResponse<Object> response) {
+                        super.onSuccess(response);
+                        Log.d(TAG,"remote network success:"+response.body);
+                    }
 
-        request.excute(new JsonCallback<JSONObject>() {
-            @Override
-            public void onSuccess(ApiResponse<JSONObject> response) {
-                super.onSuccess(response);
-            }
-        });
+                    @Override
+                    public void onError(ApiResponse<Object> response) {
+                        super.onError(response);
+                        Log.d(TAG,"remote network fail :"+response.message);
+                    }
+                });
+
+//        GetRequest<JSONObject> request = new GetRequest<JSONObject>("http://www.imooc.com");
+//        HandlerThread mHandlerThread = new HandlerThread("handleThread");
+//        mHandlerThread.start();
+//        Handler mHandler=new Handler(mHandlerThread.getLooper()){
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                request.excute(new JsonCallback<JSONObject>() {
+//                    @Override
+//                    public void onSuccess(ApiResponse<JSONObject> response) {
+//                        Log.d(TAG,"response:"+ response.body);
+//                        super.onSuccess(response);
+//                    }
+//                });
+////                Log.d(TAG,"response:"+ (String)response.body);
+//            }
+//        };
+//        mHandler.sendEmptyMessage(0);
+//        request.excute(new JsonCallback<JSONObject>() {
+//            @Override
+//            public void onSuccess(ApiResponse<JSONObject> response) {
+//                super.onSuccess(response);
+//            }
+//        });
     }
 
     @Override

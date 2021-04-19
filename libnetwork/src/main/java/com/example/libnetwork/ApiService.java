@@ -1,5 +1,6 @@
 package com.example.libnetwork;
 
+import android.util.Log;
 import android.util.TimeUtils;
 
 import java.net.Socket;
@@ -27,6 +28,8 @@ public class ApiService {
     protected static String sBaseUrl;
     protected static Convert sConvert;
 
+    private static final String TAG ="Api Service" ;
+
     static {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -39,6 +42,7 @@ public class ApiService {
                 .build();
         TrustManager[] trustManagers = new TrustManager[0];
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Log.d(TAG,"ApiService:Build version" );
             trustManagers = new TrustManager[]{new X509ExtendedTrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket) throws CertificateException {
@@ -98,5 +102,12 @@ public class ApiService {
             convert = new JsonConvert();
         }
         sConvert = convert;
+    }
+
+    public static<T> GetRequest<T> get(String url){
+        return new GetRequest<>(sBaseUrl+url);
+    }
+    public static<T> PostRequest<T> post(String url){
+        return  new PostRequest<>(sBaseUrl+url);
     }
 }

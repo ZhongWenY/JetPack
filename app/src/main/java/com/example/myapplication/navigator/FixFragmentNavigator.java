@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.navigator;
 
 import android.content.Context;
 import android.os.Bundle;
