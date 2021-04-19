@@ -41,6 +41,7 @@ public abstract class AbsListFragment<T , M extends AbsViewModel<T>> extends Fra
     protected M mViewModel;
     private DividerItemDecoration decoration;
     private String TAG = "AbsListFragment";
+    private String TAG2 = "";
 
     @Nullable
     @Override
